@@ -2,6 +2,7 @@
 //Get computers selection. Generate random number 0-2 and assign selection based on random number.
 function getComputerChoice(){
     let selection;
+    let computerChoice = document.getElementById('computer-choice');
     switch(Math.floor(Math.random() * 3)){
         case 0:
             selection = "paper";
@@ -13,7 +14,7 @@ function getComputerChoice(){
             selection = "scissors";
             break;
     }
-    console.log("The computer has selected " + selection + ".");
+    computerChoice.innerHTML = "The computer has selected " + selection + ".";
     return selection;
 }
 
@@ -53,31 +54,41 @@ function playRound(playerSelection, computerSelection){
 
 }
 
-//Loops playRound() five times prompting user input and getComputerChoice() before each round
 function game(){
-    let playerSelection;
-    let computerSelection;
-    let roundResults;
+    let btns = document.querySelectorAll('button');
+    let results = document.getElementById('results');
+    let game = document.getElementById('game');
+    let roundResults = "";
     let playerWins = 0;
     let computerWins = 0;
-    for (let i = 0; i <5; i++){
-        roundResults = "Draw";
-        playerSelection = prompt("Please make a selection (Rock/Paper/Scissors)");
-        computerSelection = getComputerChoice();
-        roundResults = playRound(playerSelection, computerSelection);
-        console.log(roundResults);
-        if (roundResults.startsWith("You win!")){
-            playerWins++;
-        } else if (roundResults.startsWith("You lose!")){
-            computerWins++;
-        }
+    let roundCount = 0;
+
+    for (i of btns) { //Add event listeners to each button on page and plays a round when you click one
+        i.addEventListener('click', function() {
+            if (roundCount === 0) game.innerHTML = ""; //Remove last games results upon pressing a new selection
+            roundResults = playRound(this.innerHTML, getComputerChoice());
+            results.innerHTML = roundResults;
+            if (roundResults.startsWith("You win!")){
+                playerWins++;
+            } else if (roundResults.startsWith("You lose!")){
+                computerWins++;
+            }
+            roundCount++;
+
+            if (roundCount === 5){ //End game after 5 rounds, declare winner and reset wins and round count to 0
+                if (playerWins > computerWins){
+                    game.innerHTML = "You won the game with " + playerWins + " wins!";
+                } else if (playerWins < computerWins){
+                    game.innerHTML = "The computer won the game with " + computerWins + " wins!";
+                } else {
+                    game.innerHTML = "You tied the computer with " + playerWins + " wins...";
+                }
+                playerWins = 0;
+                computerWins = 0;
+                roundCount = 0;
+            }
+        });
     }
-    if (playerWins > computerWins){
-        console.log("You won the game with " + playerWins + " wins!");
-    } else if (playerWins < computerWins){
-        console.log("The computer won the game with " + computerWins + " wins!");
-    } else console.log("You tied the computer with " + playerWins + " wins...");
 }
 
-//Initialize game
 game();
