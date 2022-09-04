@@ -57,11 +57,26 @@ function playRound(playerSelection, computerSelection){
 function game(){
     let playerSelection;
     let computerSelection;
+    let roundResults;
+    let playerWins = 0;
+    let computerWins = 0;
     for (let i = 0; i <5; i++){
+        roundResults = "Draw";
         playerSelection = prompt("Please make a selection (Rock/Paper/Scissors)");
         computerSelection = getComputerChoice();
-        console.log(playRound(playerSelection, computerSelection));
+        roundResults = playRound(playerSelection, computerSelection);
+        console.log(roundResults);
+        if (roundResults.startsWith("You win!")){
+            playerWins++;
+        } else if (roundResults.startsWith("You lose!")){
+            computerWins++;
+        }
     }
+    if (playerWins > computerWins){
+        console.log("You won the game with " + playerWins + " wins!");
+    } else if (playerWins < computerWins){
+        console.log("The computer won the game with " + computerWins + " wins!");
+    } else console.log("You tied the computer with " + playerWins + " wins...");
 }
 
 //Initialize game
