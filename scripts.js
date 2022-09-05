@@ -75,14 +75,12 @@ function game(){
             }
             roundCount++;
 
-            if (roundCount === 5){ //End game after 5 rounds, declare winner and reset wins and round count to 0
+            if (playerWins === 5 || computerWins === 5){ //End game after 5 rounds, declare winner and reset wins and round count to 0
                 if (playerWins > computerWins){
                     game.innerHTML = "You won the game with " + playerWins + " wins!";
-                } else if (playerWins < computerWins){
-                    game.innerHTML = "The computer won the game with " + computerWins + " wins!";
                 } else {
-                    game.innerHTML = "You tied the computer with " + playerWins + " wins...";
-                }
+                    game.innerHTML = "The computer won the game with " + computerWins + " wins!";
+                } 
                 playerWins = 0;
                 computerWins = 0;
                 roundCount = 0;
